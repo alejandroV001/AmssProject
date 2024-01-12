@@ -1,5 +1,12 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="center-form">
     <div class="example-container">
+        <mat-form-field>
+          <mat-label>Full Name</mat-label>
+          <input matInput placeholder="pat@example.com" formControlName="email" required>
+          <mat-error *ngIf="loginForm.get('email')?.invalid">{{getErrorMessage('email')}}</mat-error>
+        </mat-form-field>
+      </div>
+    <div class="example-container">
       <mat-form-field>
         <mat-label>Enter your email</mat-label>
         <input matInput placeholder="pat@example.com" formControlName="email" required>
@@ -22,7 +29,7 @@
       </div>
   
       <!-- Text below the button -->
-      <p class="register-link">Don't have an account? <a href="#">Register here!</a></p>
+      <p class="register-link">Have an account? <a href="#">Log in here!</a></p>
     </div>
   </form>
   

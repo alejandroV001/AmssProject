@@ -3,6 +3,7 @@ import { AuthorizeService, AuthenticationResultStatus } from '../authorize.servi
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } from '../api-authorization.constants';
+import { Validators, FormBuilder } from '@angular/forms';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
@@ -16,7 +17,15 @@ import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } fr
 export class LoginComponent implements OnInit {
   public message = new BehaviorSubject<string | null | undefined>(null);
 
+  
+  hide = true;
+  loginForm = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  });
+  
   constructor(
+    private formBuilder: FormBuilder,
     private authorizeService: AuthorizeService,
     private activatedRoute: ActivatedRoute,
     private router: Router) { }
@@ -44,7 +53,16 @@ export class LoginComponent implements OnInit {
         throw new Error(`Invalid action '${action}'`);
     }
   }
+  getErrorMessage(controlName: string) {
+    const control = this.loginForm.get(controlName);
 
+    if (control?.hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return control?.hasError('email') ? 'Not a valid email' : '';
+  }
+  onSubmit() {}
 
   private async login(returnUrl: string): Promise<void> {
     const state: INavigationState = { returnUrl };
@@ -65,6 +83,7 @@ export class LoginComponent implements OnInit {
         throw new Error(`Invalid status result ${(result as any).status}.`);
     }
   }
+
 
   private async processLoginCallback(): Promise<void> {
     const url = window.location.href;
