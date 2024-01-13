@@ -7,11 +7,10 @@ namespace AmssProject.Models
     {
         [Key]
         public int Id { get; set; }
-        public int TipCheltuialaId { get; set; }
+
         public TipCheltuiala TipCheltuiala { get; set; }
-        public int CalatorieId { get; set; }
+
         public Calatorie Calatorie { get; set; }
-        public string UtilizatorId { get; set; }
         public ApplicationUser Initiator { get; set; }
 
         public string Descriere { get; set; }

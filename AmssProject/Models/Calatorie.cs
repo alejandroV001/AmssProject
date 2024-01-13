@@ -6,7 +6,6 @@ namespace AmssProject.Models
     {
         public int Id { get; set; }
         public string Destinatie { get; set; }
-        public int GroupId { get; set; }
         public Grup Grup { get; set; }
 
         [ForeignKey("CalatorieId")]
