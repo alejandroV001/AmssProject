@@ -4,6 +4,7 @@ using AmssProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmssProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240113114257_AddTipCheltuiala")]
+    partial class AddTipCheltuiala
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,173 +89,6 @@ namespace AmssProject.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("AmssProject.Models.Calatorie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Destinatie")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GrupId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GrupId");
-
-                    b.ToTable("Calatorie");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Cheltuiala", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CalatorieId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DataCreare")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descriere")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InitiatorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Moneda")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TipCheltuialaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UtilizatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CalatorieId");
-
-                    b.HasIndex("InitiatorId");
-
-                    b.HasIndex("TipCheltuialaId");
-
-                    b.ToTable("Cheltuiala");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.CheltuieliCalatorie", b =>
-                {
-                    b.Property<int>("CheltuialaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CalatorieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CheltuialaId", "CalatorieId");
-
-                    b.HasIndex("CalatorieId");
-
-                    b.ToTable("CheltuieliCalatorie");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Datorie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CheltuialaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DeLaUtilizatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PentruUtilizatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("Stare")
-                        .HasColumnType("bit");
-
-                    b.Property<float>("Suma")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CheltuialaId");
-
-                    b.HasIndex("DeLaUtilizatorId");
-
-                    b.HasIndex("PentruUtilizatorId");
-
-                    b.ToTable("Datorie");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Grup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Capacitate")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nume")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Grup");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Notificare", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CheltuialaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Mesaj")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UtilizatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CheltuialaId");
-
-                    b.HasIndex("UtilizatorId");
-
-                    b.ToTable("Notificare");
-                });
-
             modelBuilder.Entity("AmssProject.Models.TipCheltuiala", b =>
                 {
                     b.Property<int>("Id")
@@ -269,21 +104,6 @@ namespace AmssProject.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TipCheltuiala");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.UtilizatorGrup", b =>
-                {
-                    b.Property<string>("UtilizatorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("GrupId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UtilizatorId", "GrupId");
-
-                    b.HasIndex("GrupId");
-
-                    b.ToTable("UtilizatoriGrupuri");
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -564,126 +384,6 @@ namespace AmssProject.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AmssProject.Models.Calatorie", b =>
-                {
-                    b.HasOne("AmssProject.Models.Grup", "Grup")
-                        .WithMany()
-                        .HasForeignKey("GrupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Grup");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Cheltuiala", b =>
-                {
-                    b.HasOne("AmssProject.Models.Calatorie", "Calatorie")
-                        .WithMany()
-                        .HasForeignKey("CalatorieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AmssProject.Models.ApplicationUser", "Initiator")
-                        .WithMany()
-                        .HasForeignKey("InitiatorId");
-
-                    b.HasOne("AmssProject.Models.TipCheltuiala", "TipCheltuiala")
-                        .WithMany()
-                        .HasForeignKey("TipCheltuialaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Calatorie");
-
-                    b.Navigation("Initiator");
-
-                    b.Navigation("TipCheltuiala");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.CheltuieliCalatorie", b =>
-                {
-                    b.HasOne("AmssProject.Models.Calatorie", "Calatorie")
-                        .WithMany("CheltuieliCalatorie")
-                        .HasForeignKey("CalatorieId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("AmssProject.Models.Cheltuiala", "Cheltuiala")
-                        .WithMany("CheltuieliCalatorie")
-                        .HasForeignKey("CheltuialaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Calatorie");
-
-                    b.Navigation("Cheltuiala");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Datorie", b =>
-                {
-                    b.HasOne("AmssProject.Models.Cheltuiala", "Cheltuiala")
-                        .WithMany()
-                        .HasForeignKey("CheltuialaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AmssProject.Models.ApplicationUser", "DeLaUtilizator")
-                        .WithMany("DatoriiDeLaUtilizator")
-                        .HasForeignKey("DeLaUtilizatorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("AmssProject.Models.ApplicationUser", "PentruUtilizator")
-                        .WithMany("DatoriiPentruUtilizator")
-                        .HasForeignKey("PentruUtilizatorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Cheltuiala");
-
-                    b.Navigation("DeLaUtilizator");
-
-                    b.Navigation("PentruUtilizator");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Notificare", b =>
-                {
-                    b.HasOne("AmssProject.Models.Cheltuiala", "Cheltuiala")
-                        .WithMany()
-                        .HasForeignKey("CheltuialaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AmssProject.Models.ApplicationUser", "Utilizator")
-                        .WithMany()
-                        .HasForeignKey("UtilizatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cheltuiala");
-
-                    b.Navigation("Utilizator");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.UtilizatorGrup", b =>
-                {
-                    b.HasOne("AmssProject.Models.Grup", "Grup")
-                        .WithMany("UtilizatoriGrupuri")
-                        .HasForeignKey("GrupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AmssProject.Models.ApplicationUser", "Utilizator")
-                        .WithMany("UtilizatoriGrupuri")
-                        .HasForeignKey("UtilizatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Grup");
-
-                    b.Navigation("Utilizator");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -733,30 +433,6 @@ namespace AmssProject.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AmssProject.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("DatoriiDeLaUtilizator");
-
-                    b.Navigation("DatoriiPentruUtilizator");
-
-                    b.Navigation("UtilizatoriGrupuri");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Calatorie", b =>
-                {
-                    b.Navigation("CheltuieliCalatorie");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Cheltuiala", b =>
-                {
-                    b.Navigation("CheltuieliCalatorie");
-                });
-
-            modelBuilder.Entity("AmssProject.Models.Grup", b =>
-                {
-                    b.Navigation("UtilizatoriGrupuri");
                 });
 #pragma warning restore 612, 618
         }
