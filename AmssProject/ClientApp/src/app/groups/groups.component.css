@@ -1,0 +1,25 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .group-form {
+    margin-bottom: 20px;
+  }
+  
+  .group-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .group-card h3 {
+    margin-bottom: 5px;
+  }
+  
+  .group-card p {
+    color: #555;
+    margin: 0;
+  }
+  

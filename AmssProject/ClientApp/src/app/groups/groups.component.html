@@ -1,0 +1,21 @@
+<div class="container">
+    <h2>Groups</h2>
+  
+    <div class="group-form">
+      <label>Title: </label>
+      <input [(ngModel)]="title" placeholder="Enter title" />
+      <br />
+      <label>Members (comma separated emails): </label>
+      <input [(ngModel)]="members" placeholder="Enter members" />
+      <br />
+      <button (click)="addGroup()">Add Group</button>
+    </div>
+  
+    <div *ngFor="let group of getGroups()" class="group-card">
+      <h3>{{ group.title }}</h3>
+      <p>Members: {{ group.members.join(', ') }}</p>
+      
+      <button (click)="navigateToDetails(group)">View Details</button>
+    </div>
+  </div>
+  

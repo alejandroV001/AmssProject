@@ -1,0 +1,59 @@
+<div class="container">
+  <h2>Group Details</h2>
+  <p>Title: {{ groupTitle }}</p>
+
+  <fieldset class="expense-form-container">
+    <legend>Add Expense</legend>
+
+    <form
+      *ngIf="expenseForm"
+      [formGroup]="expenseForm"
+      (ngSubmit)="addExpense()"
+    >
+      <div>
+        <label>Total Payment: </label>
+        <input formControlName="totalPayment" type="number" step="0.01" />
+      </div>
+      <div>
+        <label>Currency: </label>
+        <input formControlName="currency" />
+      </div>
+      <div>
+        <label>Category: </label>
+        <input formControlName="category" />
+      </div>
+      <div>
+        <label>Participants: </label>
+        <select
+          formControlName="participants"
+          multiple
+          class="participants-select"
+        >
+          <option
+            *ngFor="let member of groupService.getMembers(groupTitle)"
+            [value]="member"
+          >
+            {{ member }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <label>Description: </label>
+        <textarea formControlName="description"></textarea>
+      </div>
+      <button type="submit">Add Expense</button>
+    </form>
+  </fieldset>
+
+  <hr />
+
+  <h3>Group Expenses</h3>
+  <ul>
+    <li *ngFor="let expense of groupService.getExpenses(groupTitle)">
+      Total Payment: {{ expense.totalPayment }}, Currency:
+      {{ expense.currency }}, Category: {{ expense.category }} Participants:
+      {{ expense.participants.join(", ") }}, Description:
+      {{ expense.description }}
+    </li>
+  </ul>
+</div>
