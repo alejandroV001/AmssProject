@@ -1,0 +1,44 @@
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* 100% of the viewport height */
+  }
+  
+  .example-container {
+    text-align: center;
+    margin-bottom: 16px; /* Adjust the margin between the form fields */
+  }
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px; /* Adjust the margin between the password field and the button */
+  }
+  
+  .center-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    margin: 0;
+  }
+  
+  mat-form-field {
+    max-width: 400px; /* Adjust the value as needed */
+  }
+
+  .register-link {
+    text-align: center;
+  }
+  
+  .register-link a {
+    color: #1976D2;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
