@@ -16,7 +16,6 @@ namespace AmssProject.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Destinatie = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false),
                     GrupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -38,7 +37,6 @@ namespace AmssProject.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TipCheltuialaId = table.Column<int>(type: "int", nullable: false),
                     CalatorieId = table.Column<int>(type: "int", nullable: false),
-                    UtilizatorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     InitiatorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Descriere = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Moneda = table.Column<string>(type: "nvarchar(max)", nullable: false),
