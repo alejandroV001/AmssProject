@@ -1,0 +1,55 @@
+div.to-pay {
+  margin-bottom: 20px;
+}
+
+h2.to-pay {
+  color: #f44336;
+}
+
+ul.to-pay {
+  list-style-type: none;
+  padding: 0;
+}
+
+li.to-pay {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #ffebee;
+}
+
+button.to-pay {
+  background-color: #f44336;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+div.to-receive {
+  margin-top: 20px;
+}
+
+h2.to-receive {
+  color: #4caf50;
+}
+
+ul.to-receive {
+  list-style-type: none;
+  padding: 0;
+}
+
+li.to-receive {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #f9f9f9;
+}
+
+button.to-receive {
+  background-color: #4caf50;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}

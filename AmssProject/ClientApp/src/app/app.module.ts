@@ -20,6 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { GroupsComponent } from './groups/groups.component';
 import {GroupDetailsComponent} from './groups/group-details/group-details.component'
+import { DebtsComponent } from './debts/debts.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +29,8 @@ import {GroupDetailsComponent} from './groups/group-details/group-details.compon
     CounterComponent,
     FetchDataComponent,
     GroupsComponent,
-    GroupDetailsComponent
+    GroupDetailsComponent,
+    DebtsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -44,6 +46,7 @@ import {GroupDetailsComponent} from './groups/group-details/group-details.compon
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'groups', component: GroupsComponent },
       { path: 'group-details/:title', component: GroupDetailsComponent },
+      { path: 'debts', component: DebtsComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
     ]),

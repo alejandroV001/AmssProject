@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GroupService {
   private groups: any[] = [];
+  public expenseAdded = new EventEmitter<void>();
 
   getGroups() {
     return this.groups;
@@ -33,6 +34,7 @@ export class GroupService {
     const group = this.groups.find(g => g.title === groupTitle);
     if (group) {
       group.expenses.push(expenseData);
+      this.expenseAdded.emit();
     }
   }
 }
