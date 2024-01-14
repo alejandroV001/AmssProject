@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
   
   hide = true;
   registerForm = this.formBuilder.group({
-    name: ['', [Validators.required]],
+    DisplayName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });

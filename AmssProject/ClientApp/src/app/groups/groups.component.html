@@ -1,9 +1,12 @@
 <div class="container">
-    <h2>Groups</h2>
+    <h2>Travel Groups</h2>
   
     <div class="group-form">
-      <label>Title: </label>
-      <input [(ngModel)]="title" placeholder="Enter title" />
+      <label>Your destination: </label>
+      <input [(ngModel)]="destinatie" placeholder="Destination" />
+      <br />
+      <label>Your group name: </label>
+      <input [(ngModel)]="nume" placeholder="Group name" />
       <br />
       <label>Members (comma separated emails): </label>
       <input [(ngModel)]="members" placeholder="Enter members" />
@@ -12,8 +15,8 @@
     </div>
   
     <div *ngFor="let group of getGroups()" class="group-card">
-      <h3>{{ group.title }}</h3>
-      <p>Members: {{ group.members.join(', ') }}</p>
+      <h3>{{ group.nume }}</h3>
+      <p>{{ group.capacitate }} Members</p>
       
       <button (click)="navigateToDetails(group)">View Details</button>
     </div>

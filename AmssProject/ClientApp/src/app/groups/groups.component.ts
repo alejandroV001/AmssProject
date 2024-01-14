@@ -9,16 +9,28 @@ import { GroupService } from './groups.service';
   styleUrls: ['./groups.component.css'],
 })
 export class GroupsComponent {
-  title: string = '';
+  nume: string = '';
+  destinatie: string = '';
   members: string = '';
   
   constructor(private groupService: GroupService, private router: Router) {}
 
   addGroup() {
     const memberList = this.members.split(',').map(email => email.trim());
-    this.groupService.addGroup(this.title, memberList);
-    this.title = '';
-    this.members = '';
+    this.groupService.addGroup(this.nume, memberList).subscribe({
+      next: (result) => {
+        console.log(result);
+  
+        const groupId = result.id;
+  
+        if (groupId != null) {
+          this.groupService.addTrip(this.destinatie, groupId);
+        }
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      }
+    });
   }
 
   getGroups() {
@@ -26,6 +38,6 @@ export class GroupsComponent {
   }
 
   navigateToDetails(group: any) {
-    this.router.navigate(['/group-details', group.title]);
+    this.router.navigate(['/group-details', group.nume]);
   }
 }

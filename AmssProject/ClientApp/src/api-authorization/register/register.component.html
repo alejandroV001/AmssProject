@@ -2,7 +2,7 @@
     <div class="example-container">
         <mat-form-field>
           <mat-label>Full Name</mat-label>
-          <input matInput placeholder="pat@example.com" formControlName="name" required>
+          <input matInput placeholder="Full Name" formControlName="DisplayName" required>
           <mat-error *ngIf="registerForm.get('email')?.invalid">{{getErrorMessage('email')}}</mat-error>
         </mat-form-field>
       </div>

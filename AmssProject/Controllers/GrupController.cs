@@ -62,6 +62,7 @@ public class GrupController : ControllerBase
 
         _context.Grup.Add(grup);
         await _context.SaveChangesAsync();
+        grupDto.Id = grup.Id;
 
         return CreatedAtAction(nameof(GetGrup), new { id = grup.Id }, grupDto);
     }
