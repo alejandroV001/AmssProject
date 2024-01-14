@@ -25,6 +25,13 @@ builder.Services.AddAuthentication()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("Policy", builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
 
 var app = builder.Build();
@@ -48,6 +55,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseIdentityServer();
+app.UseCors("Policy");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

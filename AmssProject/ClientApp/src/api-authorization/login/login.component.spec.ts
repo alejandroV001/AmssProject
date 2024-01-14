@@ -5,7 +5,6 @@ import { ActivatedRoute, ActivatedRouteSnapshot, UrlSegment, convertToParamMap, 
 import { of } from 'rxjs';
 import { LoginActions } from '../api-authorization.constants';
 import { HttpParams } from '@angular/common/http';
-import { AuthorizeService } from '../authorize.service';
 import { HomeComponent } from 'src/app/home/home.component';
 
 class RouterStub {
@@ -48,10 +47,6 @@ describe('LoginComponent', () => {
   }));
 
   beforeEach(() => {
-    let authService = TestBed.get(AuthorizeService);
-
-    spyOn(authService, 'ensureUserManagerInitialized').and.returnValue(
-      Promise.resolve());
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;

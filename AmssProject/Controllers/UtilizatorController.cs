@@ -37,10 +37,10 @@ namespace AmssProject.Controllers;
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-                if (!result.Succeeded)
-                {
-                    return NotFound();
-                }
+                //if (!result.Succeeded)
+                //{
+                //    return NotFound();
+                //}
 
             return new UtilizatorDto
             {

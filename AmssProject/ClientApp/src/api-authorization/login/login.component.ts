@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizeService, AuthenticationResultStatus } from '../authorize.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } from '../api-authorization.constants';
 import { Validators, FormBuilder } from '@angular/forms';
+import { AuthenticationService } from '../authentification/authentication.service';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
@@ -26,18 +26,16 @@ export class LoginComponent implements OnInit {
   
   constructor(
     private formBuilder: FormBuilder,
-    private authorizeService: AuthorizeService,
     private activatedRoute: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthenticationService) { }
 
   async ngOnInit() {
     const action = this.activatedRoute.snapshot.url[1];
     switch (action.path) {
       case LoginActions.Login:
-        await this.login(this.getReturnUrl());
         break;
       case LoginActions.LoginCallback:
-        await this.processLoginCallback();
         break;
       case LoginActions.LoginFailed:
         const message = this.activatedRoute.snapshot.queryParamMap.get(QueryParameterNames.Message);
@@ -62,44 +60,21 @@ export class LoginComponent implements OnInit {
 
     return control?.hasError('email') ? 'Not a valid email' : '';
   }
-  onSubmit() {}
-
-  private async login(returnUrl: string): Promise<void> {
-    const state: INavigationState = { returnUrl };
-    const result = await this.authorizeService.signIn(state);
-    this.message.next(undefined);
-    switch (result.status) {
-      case AuthenticationResultStatus.Redirect:
-        break;
-      case AuthenticationResultStatus.Success:
-        await this.navigateToReturnUrl(returnUrl);
-        break;
-      case AuthenticationResultStatus.Fail:
-        await this.router.navigate(ApplicationPaths.LoginFailedPathComponents, {
-          queryParams: { [QueryParameterNames.Message]: result.message }
-        });
-        break;
-      default:
-        throw new Error(`Invalid status result ${(result as any).status}.`);
+  async onSubmit() {
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value).subscribe({
+        next: (result) => {
+          console.log(result);
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          console.log(err); // You can still log the error if needed
+        },
+      });
     }
   }
-
-
-  private async processLoginCallback(): Promise<void> {
-    const url = window.location.href;
-    const result = await this.authorizeService.completeSignIn(url);
-    switch (result.status) {
-      case AuthenticationResultStatus.Redirect:
-        // There should not be any redirects as completeSignIn never redirects.
-        throw new Error('Should not redirect.');
-      case AuthenticationResultStatus.Success:
-        await this.navigateToReturnUrl(this.getReturnUrl(result.state));
-        break;
-      case AuthenticationResultStatus.Fail:
-        this.message.next(result.message);
-        break;
-    }
-  }
+  
+  
 
   private redirectToRegister(): any {
     this.redirectToApiAuthorizationPath(
