@@ -7,5 +7,7 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Grup, GrupDto>();
+
+        CreateMap<CheltuieliCalatorie, CheltuialaDto>();
     }
 }
