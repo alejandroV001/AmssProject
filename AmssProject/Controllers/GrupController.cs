@@ -1,6 +1,7 @@
-using AmssProject.Data;
+﻿using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
+using AmssProject.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,38 +11,24 @@ namespace AmssProject.Controllers;
 [ApiController]
 public class GrupController : ControllerBase
 {
-    private readonly ApplicationDbContext _context; // Update the context type
+    private readonly GrupRepository _grupRepository;
 
-    public GrupController(ApplicationDbContext context)
+    public GrupController(GrupRepository grupRepository)
     {
-        _context = context;
+        _grupRepository = grupRepository;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetGrupuri()
     {
-        var grupuri = await _context.Grup.Select(g => new GrupDto
-        {
-            Id = g.Id,
-            Nume = g.Nume,
-            Capacitate = g.Capacitate,
-        }).ToListAsync();
-
+        var grupuri = await _grupRepository.GetAllGrupuriAsync();
         return Ok(grupuri);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetGrup(int id)
     {
-        var grup = await _context.Grup
-            .Where(g => g.Id == id)
-            .Select(g => new GrupDto
-            {
-                Id = g.Id,
-                Nume = g.Nume,
-                Capacitate = g.Capacitate,
-            })
-            .FirstOrDefaultAsync();
+        var grup = await _grupRepository.GetGrupByIdAsync(id);
 
         if (grup == null)
         {
@@ -54,31 +41,19 @@ public class GrupController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddGrup(GrupDto grupDto)
     {
-        var grup = new Grup
-        {
-            Nume = grupDto.Nume,
-            Capacitate = grupDto.Capacitate
-        };
-
-        _context.Grup.Add(grup);
-        await _context.SaveChangesAsync();
-        grupDto.Id = grup.Id;
-
-        return CreatedAtAction(nameof(GetGrup), new { id = grup.Id }, grupDto);
+        var addedGrup = await _grupRepository.AddGrupAsync(grupDto);
+        return CreatedAtAction(nameof(GetGrup), new { id = addedGrup.Id }, addedGrup);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteGrup(int id)
     {
-        var grup = await _context.Grup.FindAsync(id);
+        var success = await _grupRepository.DeleteGrupAsync(id);
 
-        if (grup == null)
+        if (!success)
         {
             return NotFound();
         }
-
-        _context.Grup.Remove(grup);
-        await _context.SaveChangesAsync();
 
         return NoContent();
     }

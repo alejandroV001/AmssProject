@@ -1,6 +1,7 @@
 using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
+using AmssProject.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,36 +11,24 @@ namespace AmssProject.Controllers;
 [ApiController]
 public class UtilizatorGrupController : ControllerBase
 {
-    private readonly ApplicationDbContext _context; 
+    private readonly UtilizatorGrupRepository _utilizatorGrupRepository;
 
-    public UtilizatorGrupController(ApplicationDbContext context)
+    public UtilizatorGrupController(UtilizatorGrupRepository utilizatorGrupRepository)
     {
-        _context = context;
+        _utilizatorGrupRepository = utilizatorGrupRepository;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetUtilizatoriGrupuri()
     {
-        var utilizatoriGrupuri = await _context.UtilizatoriGrupuri.Select(ug => new UtilizatorGrupDto
-        {
-            UtilizatorId = ug.UtilizatorId,
-            GrupId = ug.GrupId
-        }).ToListAsync();
-
+        var utilizatoriGrupuri = await _utilizatorGrupRepository.GetUtilizatoriGrupuriAsync();
         return Ok(utilizatoriGrupuri);
     }
 
     [HttpGet("{utilizatorId}/{grupId}")]
     public async Task<IActionResult> GetUtilizatorGrup(string utilizatorId, int grupId)
     {
-        var utilizatorGrup = await _context.UtilizatoriGrupuri
-            .Where(ug => ug.UtilizatorId == utilizatorId && ug.GrupId == grupId)
-            .Select(ug => new UtilizatorGrupDto
-            {
-                UtilizatorId = ug.UtilizatorId,
-                GrupId = ug.GrupId
-            })
-            .FirstOrDefaultAsync();
+        var utilizatorGrup = await _utilizatorGrupRepository.GetUtilizatorGrupAsync(utilizatorId, grupId);
 
         if (utilizatorGrup == null)
         {
@@ -52,32 +41,19 @@ public class UtilizatorGrupController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddUtilizatorGrup(UtilizatorGrupDto utilizatorGrupDto)
     {
-        var utilizatorGrup = new UtilizatorGrup
-        {
-            UtilizatorId = utilizatorGrupDto.UtilizatorId,
-            GrupId = utilizatorGrupDto.GrupId
-        };
-
-        _context.UtilizatoriGrupuri.Add(utilizatorGrup);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetUtilizatorGrup), new { utilizatorId = utilizatorGrup.UtilizatorId, grupId = utilizatorGrup.GrupId }, utilizatorGrupDto);
+        var addedUtilizatorGrup = await _utilizatorGrupRepository.AddUtilizatorGrupAsync(utilizatorGrupDto);
+        return CreatedAtAction(nameof(GetUtilizatorGrup), new { utilizatorId = addedUtilizatorGrup.UtilizatorId, grupId = addedUtilizatorGrup.GrupId }, addedUtilizatorGrup);
     }
 
     [HttpDelete("{utilizatorId}/{grupId}")]
     public async Task<IActionResult> DeleteUtilizatorGrup(string utilizatorId, int grupId)
     {
-        var utilizatorGrup = await _context.UtilizatoriGrupuri
-            .Where(ug => ug.UtilizatorId == utilizatorId && ug.GrupId == grupId)
-            .FirstOrDefaultAsync();
+        var success = await _utilizatorGrupRepository.DeleteUtilizatorGrupAsync(utilizatorId, grupId);
 
-        if (utilizatorGrup == null)
+        if (!success)
         {
             return NotFound();
         }
-
-        _context.UtilizatoriGrupuri.Remove(utilizatorGrup);
-        await _context.SaveChangesAsync();
 
         return NoContent();
     }

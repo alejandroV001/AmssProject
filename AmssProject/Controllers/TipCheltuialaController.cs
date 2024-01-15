@@ -1,5 +1,6 @@
 using AmssProject.Data;
 using AmssProject.Models;
+using AmssProject.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,36 +10,24 @@ namespace AmssProject.Controllers;
 [ApiController]
 public class TipCheltuialaController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly TipCheltuialaRepository _tipCheltuialaRepository;
 
-    public TipCheltuialaController(ApplicationDbContext context)
+    public TipCheltuialaController(TipCheltuialaRepository tipCheltuialaRepository)
     {
-        _context = context;
+        _tipCheltuialaRepository = tipCheltuialaRepository;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetTipuriCheltuieli()
     {
-        var tipuriCheltuieli = await _context.TipCheltuiala.Select(tc => new
-        {
-            tc.Id,
-            tc.Name
-        }).ToListAsync();
-
+        var tipuriCheltuieli = await _tipCheltuialaRepository.GetAllTipuriCheltuieliAsync();
         return Ok(tipuriCheltuieli);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTipCheltuiala(int id)
     {
-        var tipCheltuiala = await _context.TipCheltuiala
-            .Where(tc => tc.Id == id)
-            .Select(tc => new
-            {
-                tc.Id,
-                tc.Name
-            })
-            .FirstOrDefaultAsync();
+        var tipCheltuiala = await _tipCheltuialaRepository.GetTipCheltuialaByIdAsync(id);
 
         if (tipCheltuiala == null)
         {
@@ -51,25 +40,19 @@ public class TipCheltuialaController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddTipCheltuiala(TipCheltuiala tipCheltuiala)
     {
-        _context.TipCheltuiala.Add(tipCheltuiala);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetTipCheltuiala), new { id = tipCheltuiala.Id },
-            new { tipCheltuiala.Id, tipCheltuiala.Name });
+        var addedTipCheltuiala = await _tipCheltuialaRepository.AddTipCheltuialaAsync(tipCheltuiala);
+        return CreatedAtAction(nameof(GetTipCheltuiala), new { id = addedTipCheltuiala.Id }, addedTipCheltuiala);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTipCheltuiala(int id)
     {
-        var tipCheltuiala = await _context.TipCheltuiala.FindAsync(id);
+        var success = await _tipCheltuialaRepository.DeleteTipCheltuialaAsync(id);
 
-        if (tipCheltuiala == null)
+        if (!success)
         {
             return NotFound();
         }
-
-        _context.TipCheltuiala.Remove(tipCheltuiala);
-        await _context.SaveChangesAsync();
 
         return NoContent();
     }

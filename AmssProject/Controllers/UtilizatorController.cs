@@ -1,6 +1,7 @@
 ﻿using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
+using AmssProject.Repositories;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,63 +13,36 @@ namespace AmssProject.Controllers;
     [ApiController]
     public class UtilizatorController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ITokenService _tokenService;
+        private readonly UtilizatorRepository _utilizatorRepository;
 
-        public UtilizatorController(UserManager<ApplicationUser> userManager,
-                                    SignInManager<ApplicationUser> signInManager,
-                                    ITokenService tokenService)
+        public UtilizatorController(UtilizatorRepository utilizatorRepository)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _tokenService = tokenService;
+            _utilizatorRepository = utilizatorRepository;
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UtilizatorDto>> Login(LogareDto loginDto)
         {
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            var utilizatorDto = await _utilizatorRepository.LoginAsync(loginDto);
 
-            if (user == null)
+            if (utilizatorDto == null)
             {
                 return NotFound();
             }
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-
-                //if (!result.Succeeded)
-                //{
-                //    return NotFound();
-                //}
-
-            return new UtilizatorDto
-            {
-                 Email = user.Email,
-                 DisplayName = user.UserName
-            };
+            return utilizatorDto;
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<UtilizatorDto>> Register(RegisterDto registerDto)
         {
-            var user = new ApplicationUser
-            {
-                UserName = registerDto.DisplayName,
-                Email = registerDto.Email,
-            };
+            var utilizatorDto = await _utilizatorRepository.RegisterAsync(registerDto);
 
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            if (!result.Succeeded)
+            if (utilizatorDto == null)
             {
                 return BadRequest();
             }
 
-            return new UtilizatorDto
-            {
-                Email = user.Email,
-                DisplayName = user.UserName
-            };
+            return utilizatorDto;
         }
     }

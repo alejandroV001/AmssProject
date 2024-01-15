@@ -1,6 +1,7 @@
 using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
+using AmssProject.Repositories;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,40 +12,24 @@ namespace AmssProject.Controllers;
 [ApiController]
 public class CalatorieController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IMapper _mapper;
+    private readonly CalatorieRepository _calatorieRepository;
 
-    public CalatorieController(ApplicationDbContext context)
+    public CalatorieController(CalatorieRepository calatorieRepository)
     {
-        _mapper = AutoMapperConfig.GetMapper();
-        _context = context;
+        _calatorieRepository = calatorieRepository;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetCalatorii()
     {
-        var calatorii = await _context.Calatorie.Select(c => new CalatorieDto
-        {
-            Id = c.Id,
-            Destinatie = c.Destinatie,
-            GrupId = c.Grup.Id
-        }).ToListAsync();
-
+        var calatorii = await _calatorieRepository.GetAllCalatoriiAsync();
         return Ok(calatorii);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCalatorie(int id)
     {
-        var calatorie = await _context.Calatorie
-            .Where(c => c.Id == id)
-            .Select(c => new CalatorieDto
-            {
-                Id = c.Id,
-                Destinatie = c.Destinatie,
-                GrupId = c.Grup.Id
-            })
-            .FirstOrDefaultAsync();
+        var calatorie = await _calatorieRepository.GetCalatorieByIdAsync(id);
 
         if (calatorie == null)
         {
@@ -57,20 +42,9 @@ public class CalatorieController : ControllerBase
     [HttpGet("calatorieGrup/{id}")]
     public async Task<IActionResult> GetCalatorieGrup(int id)
     {
-        var calatorie = await _context.Calatorie
-            .Include(c => c.Grup)
-            .Include(c => c.CheltuieliCalatorie)
-            .Where(c => c.Id == id)
-            .Select(c => new CalatorieGrupDto
-            {
-                Id = c.Id,
-                Destinatie = c.Destinatie,
-                Grup = _mapper.Map<GrupDto>(c.Grup),
-                Cheltuieli = _mapper.Map<List<CheltuialaDto>>(c.CheltuieliCalatorie)
+        var calatorie = await _calatorieRepository.GetCalatorieGrupByIdAsync(id);
 
-            })
-            .FirstOrDefaultAsync();
-        if(calatorie == null)
+        if (calatorie == null)
         {
             return NotFound();
         }
@@ -81,18 +55,7 @@ public class CalatorieController : ControllerBase
     [HttpGet("calatoriiGrup")]
     public async Task<IActionResult> GetCalatoriiGrup()
     {
-        var calatorii = await _context.Calatorie
-            .Include(c => c.Grup)
-            .Include(c => c.CheltuieliCalatorie)
-            .Select(c => new CalatorieGrupDto
-            {
-                Id = c.Id,
-                Destinatie = c.Destinatie,
-                Grup = _mapper.Map<GrupDto>(c.Grup),
-                Cheltuieli = _mapper.Map<List<CheltuialaDto>>(c.CheltuieliCalatorie)
-
-            })
-            .ToListAsync();
+        var calatorii = await _calatorieRepository.GetAllCalatoriiGrupAsync();
 
         if (calatorii == null)
         {
@@ -105,39 +68,26 @@ public class CalatorieController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddCalatorie(CalatorieDto calatorieDto)
     {
-        // Assuming you have the GrupId in CalatorieDto
-        var grup = await _context.Grup.FindAsync(calatorieDto.GrupId);
-
-        if (grup == null)
+        try
         {
-            return BadRequest("Invalid GroupId");
+            var addedCalatorie = await _calatorieRepository.AddCalatorieAsync(calatorieDto);
+            return CreatedAtAction(nameof(GetCalatorie), new { id = addedCalatorie.Id }, addedCalatorie);
         }
-
-        var calatorie = new Calatorie
+        catch (ArgumentException ex)
         {
-            Destinatie = calatorieDto.Destinatie,
-            Grup = grup
-        };
-
-        _context.Calatorie.Add(calatorie);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetCalatorie), new { id = calatorie.Id }, calatorieDto);
+            return BadRequest(ex.Message);
+        }
     }
-
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCalatorie(int id)
     {
-        var calatorie = await _context.Calatorie.FindAsync(id);
+        var success = await _calatorieRepository.DeleteCalatorieAsync(id);
 
-        if (calatorie == null)
+        if (!success)
         {
             return NotFound();
         }
-
-        _context.Calatorie.Remove(calatorie);
-        await _context.SaveChangesAsync();
 
         return NoContent();
     }
