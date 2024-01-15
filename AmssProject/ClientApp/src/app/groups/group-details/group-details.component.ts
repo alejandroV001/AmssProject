@@ -30,11 +30,16 @@ export class GroupDetailsComponent implements OnInit {
       participants: [[]],
       description: [''],
     });
+
+    this.groupId = this.route.snapshot.paramMap.get('id') || '';
+    this.getGrupTrip(parseInt(this.groupId));
+    this.getExpensesOfTrip(parseInt(this.groupId));
   }
 
   ngOnInit(): void {
     this.groupId = this.route.snapshot.paramMap.get('id') || '';
     this.getGrupTrip(parseInt(this.groupId));
+    this.getExpensesOfTrip(parseInt(this.groupId));
   }
 
   addExpense() {
@@ -46,11 +51,25 @@ export class GroupDetailsComponent implements OnInit {
   getGrupTrip(id: number) {
     this.groupService.getGrupTripWithId(id).subscribe({
       next: (result: any) => {
-        let members: any;
+        let members: any = [];
         for (let i = 0; i < result.grup.capacitate; i++)
           members.push('Member ' + i);
         this.groupDetails = { ...result, members };
         console.log('group deta', this.groupDetails);
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
+  }
+
+  getExpensesOfTrip(tripId: number) {
+    this.groupService.getExpenses().subscribe({
+      next: (result) => {
+        this.groupDetails.cheltuieli = result.filter(
+          (expense: any) => expense.calatorieId === tripId
+        );
+        console.log('DOAMNE CE', this.groupDetails.cheltuieli);
       },
       error: (error) => {
         console.error('There was an error!', error);

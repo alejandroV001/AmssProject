@@ -11,14 +11,16 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { GroupsComponent } from './groups/groups.component';
-import {GroupDetailsComponent} from './groups/group-details/group-details.component';
-import { DashboardComponent } from './dashboard/dashboard.component'
+import { GroupDetailsComponent } from './groups/group-details/group-details.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
+import { DebtsComponent } from './debts/debts.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,12 +31,14 @@ import { NgModule } from '@angular/core';
     FetchDataComponent,
     GroupsComponent,
     GroupDetailsComponent,
-    DashboardComponent
+    DashboardComponent,
+    DebtsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     MatInputModule,
+    CommonModule,
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
@@ -46,12 +50,11 @@ import { NgModule } from '@angular/core';
       { path: 'groups', component: GroupsComponent },
       { path: 'group-details/:id', component: GroupDetailsComponent },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'counter', component: CounterComponent },
+      { path: 'debts', component: DebtsComponent },
     ]),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
-  providers: [
-  ],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

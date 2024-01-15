@@ -50,9 +50,8 @@ export class GroupService {
     return group ? group.members : [];
   }
 
-  getExpenses(groupTitle: string) {
-    const group = this.groups.find(g => g.nume === groupTitle);
-    return group ? group.expenses : [];
+  getExpenses() {
+    return this.http.get<any[]>(this.expenseBaseUrl);
   }
 
   addExpenses(groupTitle: string, expenseData: any) {

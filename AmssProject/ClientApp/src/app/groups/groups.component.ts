@@ -19,49 +19,48 @@ export class GroupsComponent implements OnInit {
     this.getGroups();
   }
   addGroup() {
-    const memberList = this.members.split(',').map(email => email.trim());
+    const memberList = this.members.split(',').map((email) => email.trim());
     this.groupService.addGroup(this.nume, memberList).subscribe({
       next: (result) => {
         console.log(result);
-  
+
         const groupId = result.id;
-  
+
         if (groupId != null) {
           this.groupService.addTrip(this.destinatie, groupId).subscribe({
             next: (result) => {
               this.getGroups();
-            }
+            },
           });
         }
       },
       error: (error) => {
         console.error('There was an error!', error);
-      }
+      },
     });
   }
 
   getGroups() {
-   this.groupService.getGrupTrips().subscribe({
+    this.groupService.getGrupTrips().subscribe({
       next: (result) => {
         this.tripGroups = result;
       },
       error: (error) => {
         console.error('There was an error!', error);
-      }
+      },
     });
-   }
+  }
 
-  
-   getGroupTrip(id: number) {
+  getGroupTrip(id: number) {
     this.groupService.getGrupTrip(id).subscribe({
-       next: (result) => {
-         this.tripGroups = result;
-       },
-       error: (error) => {
-         console.error('There was an error!', error);
-       }
-     });
-    }
+      next: (result) => {
+        this.tripGroups = result;
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
+  }
 
   navigateToDetails(groupId: any) {
     this.router.navigate(['/group-details', groupId]);
