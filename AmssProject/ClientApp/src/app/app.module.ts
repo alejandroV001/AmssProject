@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -19,6 +18,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { GroupsComponent } from './groups/groups.component';
 import {GroupDetailsComponent} from './groups/group-details/group-details.component';
 import { DashboardComponent } from './dashboard/dashboard.component'
+import { NgModule } from '@angular/core';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'groups', component: GroupsComponent },
-      { path: 'group-details/:title', component: GroupDetailsComponent },
+      { path: 'group-details/:id', component: GroupDetailsComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'counter', component: CounterComponent },
     ]),

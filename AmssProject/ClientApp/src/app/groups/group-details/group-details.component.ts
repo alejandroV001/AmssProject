@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GroupService } from '../groups.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-group-details',
@@ -9,14 +10,19 @@ import { GroupService } from '../groups.service';
   styleUrls: ['./group-details.component.css'],
 })
 export class GroupDetailsComponent implements OnInit {
-  groupTitle: string = '';
+  groupId: string = '';
   expenseForm: FormGroup;
+  groupBaseUrl: string = 'https://localhost:7242/api/Grup';
+  groupDetails: any = { destinatie: '' };
+  groupService: GroupService;
 
   constructor(
     public route: ActivatedRoute,
-    public groupService: GroupService,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    public http: HttpClient
   ) {
+    this.groupService = new GroupService(http);
+
     this.expenseForm = this.fb.group({
       totalPayment: ['', Validators.required],
       currency: ['', Validators.required],
@@ -27,12 +33,28 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.groupTitle = this.route.snapshot.paramMap.get('title') || '';
+    this.groupId = this.route.snapshot.paramMap.get('id') || '';
+    this.getGrupTrip(parseInt(this.groupId));
   }
 
   addExpense() {
     const expenseData = this.expenseForm.value;
-    this.groupService.addExpense(this.groupTitle, expenseData);
+    this.groupService.addExpenses(this.groupId, expenseData);
     this.expenseForm.reset();
+  }
+
+  getGrupTrip(id: number) {
+    this.groupService.getGrupTripWithId(id).subscribe({
+      next: (result: any) => {
+        let members: any;
+        for (let i = 0; i < result.grup.capacitate; i++)
+          members.push('Member ' + i);
+        this.groupDetails = { ...result, members };
+        console.log('group deta', this.groupDetails);
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
   }
 }
