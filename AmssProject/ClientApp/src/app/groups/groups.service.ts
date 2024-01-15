@@ -7,6 +7,7 @@ import { CalatorieGrupDto } from 'src/models/trip-group';
 export class GroupService {
   private groupBaseUrl: string = "https://localhost:7242/api/Grup"
   private tripBaseUrl: string = "https://localhost:7242/api/Calatorie"
+  private expenseBaseUrl: string = "https://localhost:7242/api/Cheltuiala"
   private groups: any[] = [];
   constructor(private http: HttpClient) {}
   getGroups() {
@@ -31,6 +32,10 @@ export class GroupService {
     return this.http.get<CalatorieGrupDto[]>(this.tripBaseUrl+"/calatoriiGrup");
   }
 
+  getGrupTripWithId(id: number){
+    return this.http.get<CalatorieGrupDto[]>(this.tripBaseUrl+"/calatorieGrup/" + id);
+  }
+
 
   addTrip(destinatie: string, grupId: number) {
     const newTrip = {
@@ -50,7 +55,7 @@ export class GroupService {
     return group ? group.expenses : [];
   }
 
-  addExpense(groupTitle: string, expenseData: any) {
+  addExpenses(groupTitle: string, expenseData: any) {
     const group = this.groups.find(g => g.nume === groupTitle);
     if (group) {
       group.expenses.push(expenseData);
