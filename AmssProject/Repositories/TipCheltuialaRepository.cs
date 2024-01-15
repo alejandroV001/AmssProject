@@ -1,10 +1,11 @@
 ﻿using AmssProject.Data;
 using AmssProject.Models;
+using AmssProject.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace AmssProject.Repositories
 {
-    public class TipCheltuialaRepository
+    public class TipCheltuialaRepository : ITipCheltuialaRepository
     {
         private readonly ApplicationDbContext _context;
 

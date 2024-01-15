@@ -1,9 +1,12 @@
 using AmssProject.Data;
 using AmssProject.Models;
+using AmssProject.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using AmssProject.Repositories.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,14 @@ builder.Services.AddCors(option =>
         builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+builder.Services.AddScoped<ICalatorieRepository,CalatorieRepository>();
+builder.Services.AddScoped<ICheltuialaRepository, CheltuialaRepository>();
+builder.Services.AddScoped<IGrupRepository, GrupRepository>();
+builder.Services.AddScoped<ITipCheltuialaRepository, TipCheltuialaRepository>();
+builder.Services.AddScoped<IUtilizatorGrupRepository, UtilizatorGrupRepository>();
+builder.Services.AddScoped<IUtilizatorRepository, UtilizatorRepository>();
 
 
 var app = builder.Build();

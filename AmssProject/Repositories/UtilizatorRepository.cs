@@ -1,11 +1,12 @@
 ﻿using AmssProject.Dto;
 using AmssProject.Models;
+using AmssProject.Repositories.Interface;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace AmssProject.Repositories
 {
-    public class UtilizatorRepository
+    public class UtilizatorRepository : IUtilizatorRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;

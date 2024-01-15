@@ -2,6 +2,7 @@ using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
 using AmssProject.Repositories;
+using AmssProject.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,9 @@ namespace AmssProject.Controllers;
 [ApiController]
 public class CheltuialaController : ControllerBase
 {
-    private readonly CheltuialaRepository _cheltuialaRepository;
+    private readonly ICheltuialaRepository _cheltuialaRepository;
 
-    public CheltuialaController(CheltuialaRepository cheltuialaRepository)
+    public CheltuialaController(ICheltuialaRepository cheltuialaRepository)
     {
         _cheltuialaRepository = cheltuialaRepository;
     }

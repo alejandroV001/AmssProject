@@ -1,12 +1,13 @@
 ﻿using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
+using AmssProject.Repositories.Interface;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace AmssProject.Repositories
 {
-    public class CalatorieRepository
+    public class CalatorieRepository : ICalatorieRepository
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;

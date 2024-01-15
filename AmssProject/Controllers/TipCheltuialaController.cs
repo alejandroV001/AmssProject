@@ -1,6 +1,7 @@
 using AmssProject.Data;
 using AmssProject.Models;
 using AmssProject.Repositories;
+using AmssProject.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,9 +11,9 @@ namespace AmssProject.Controllers;
 [ApiController]
 public class TipCheltuialaController : ControllerBase
 {
-    private readonly TipCheltuialaRepository _tipCheltuialaRepository;
+    private readonly ITipCheltuialaRepository _tipCheltuialaRepository;
 
-    public TipCheltuialaController(TipCheltuialaRepository tipCheltuialaRepository)
+    public TipCheltuialaController(ITipCheltuialaRepository tipCheltuialaRepository)
     {
         _tipCheltuialaRepository = tipCheltuialaRepository;
     }

@@ -1,11 +1,12 @@
 ﻿using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
+using AmssProject.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace AmssProject.Repositories
 {
-    public class CheltuialaRepository
+    public class CheltuialaRepository : ICheltuialaRepository
     {
         private readonly ApplicationDbContext _context;
 

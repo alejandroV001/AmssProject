@@ -2,6 +2,7 @@
 using AmssProject.Dto;
 using AmssProject.Models;
 using AmssProject.Repositories;
+using AmssProject.Repositories.Interface;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,9 @@ namespace AmssProject.Controllers;
     [ApiController]
     public class UtilizatorController : ControllerBase
     {
-        private readonly UtilizatorRepository _utilizatorRepository;
+        private readonly IUtilizatorRepository _utilizatorRepository;
 
-        public UtilizatorController(UtilizatorRepository utilizatorRepository)
+        public UtilizatorController(IUtilizatorRepository utilizatorRepository)
         {
             _utilizatorRepository = utilizatorRepository;
         }

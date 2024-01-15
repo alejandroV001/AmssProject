@@ -2,6 +2,7 @@ using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
 using AmssProject.Repositories;
+using AmssProject.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,9 @@ namespace AmssProject.Controllers;
 [ApiController]
 public class UtilizatorGrupController : ControllerBase
 {
-    private readonly UtilizatorGrupRepository _utilizatorGrupRepository;
+    private readonly IUtilizatorGrupRepository _utilizatorGrupRepository;
 
-    public UtilizatorGrupController(UtilizatorGrupRepository utilizatorGrupRepository)
+    public UtilizatorGrupController(IUtilizatorGrupRepository utilizatorGrupRepository)
     {
         _utilizatorGrupRepository = utilizatorGrupRepository;
     }

@@ -9,5 +9,8 @@ public class MappingProfile : Profile
         CreateMap<Grup, GrupDto>();
 
         CreateMap<CheltuieliCalatorie, CheltuialaDto>();
+
+        CreateMap<Calatorie, CalatorieDto>();
+
     }
 }

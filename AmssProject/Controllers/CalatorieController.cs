@@ -1,7 +1,7 @@
 using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
-using AmssProject.Repositories;
+using AmssProject.Repositories.Interface;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +12,9 @@ namespace AmssProject.Controllers;
 [ApiController]
 public class CalatorieController : ControllerBase
 {
-    private readonly CalatorieRepository _calatorieRepository;
+    private readonly ICalatorieRepository _calatorieRepository;
 
-    public CalatorieController(CalatorieRepository calatorieRepository)
+    public CalatorieController(ICalatorieRepository calatorieRepository)
     {
         _calatorieRepository = calatorieRepository;
     }

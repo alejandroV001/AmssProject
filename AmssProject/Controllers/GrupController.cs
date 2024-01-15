@@ -2,6 +2,7 @@
 using AmssProject.Dto;
 using AmssProject.Models;
 using AmssProject.Repositories;
+using AmssProject.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,9 @@ namespace AmssProject.Controllers;
 [ApiController]
 public class GrupController : ControllerBase
 {
-    private readonly GrupRepository _grupRepository;
+    private readonly IGrupRepository _grupRepository;
 
-    public GrupController(GrupRepository grupRepository)
+    public GrupController(IGrupRepository grupRepository)
     {
         _grupRepository = grupRepository;
     }
