@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { CalatorieGrupDto } from 'src/models/trip-group';
 @Injectable({
   providedIn: 'root',
 })
@@ -9,7 +10,7 @@ export class GroupService {
   private groups: any[] = [];
   constructor(private http: HttpClient) {}
   getGroups() {
-    return this.groups;
+    return this.http.get<any[]>(this.groupBaseUrl);
   }
 
   addGroup(nume: string, members: string[]) {
@@ -21,19 +22,22 @@ export class GroupService {
     return this.http.post<any>(this.groupBaseUrl, newGroup);
     // newGroup.expenses = [];
   }
+  
+  getGrupTrip(tripId: number){
+    return this.http.get<any[]>(this.tripBaseUrl + "/" + tripId);
+  }
+  
+  getGrupTrips(){
+    return this.http.get<CalatorieGrupDto[]>(this.tripBaseUrl+"/calatoriiGrup");
+  }
+
+
   addTrip(destinatie: string, grupId: number) {
     const newTrip = {
       destinatie,
       grupId
     };
-    this.http.post<any>(this.tripBaseUrl, newTrip).subscribe({
-      next: data => {
-        console.log(data);
-      },
-      error: error => {
-        console.error('There was an error!', error);
-      }
-    });
+    return this.http.post<any>(this.tripBaseUrl, newTrip);
   }
 
   getMembers(groupTitle: string) {

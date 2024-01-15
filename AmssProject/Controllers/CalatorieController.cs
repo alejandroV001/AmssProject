@@ -1,6 +1,7 @@
 using AmssProject.Data;
 using AmssProject.Dto;
 using AmssProject.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ namespace AmssProject.Controllers;
 public class CalatorieController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
+    private readonly IMapper _mapper;
 
     public CalatorieController(ApplicationDbContext context)
     {
+        _mapper = AutoMapperConfig.GetMapper();
         _context = context;
     }
 
@@ -49,6 +52,54 @@ public class CalatorieController : ControllerBase
         }
 
         return Ok(calatorie);
+    }
+
+    [HttpGet("calatorieGrup/{id}")]
+    public async Task<IActionResult> GetCalatorieGrup(int id)
+    {
+        var calatorie = await _context.Calatorie
+            .Include(c => c.Grup)
+            .Include(c => c.CheltuieliCalatorie)
+            .Where(c => c.Id == id)
+            .Select(c => new CalatorieGrupDto
+            {
+                Id = c.Id,
+                Destinatie = c.Destinatie,
+                Grup = _mapper.Map<GrupDto>(c.Grup),
+                Cheltuieli = _mapper.Map<List<CheltuialaDto>>(c.CheltuieliCalatorie)
+
+            })
+            .FirstOrDefaultAsync();
+        if(calatorie == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(calatorie);
+    }
+
+    [HttpGet("calatoriiGrup")]
+    public async Task<IActionResult> GetCalatoriiGrup()
+    {
+        var calatorii = await _context.Calatorie
+            .Include(c => c.Grup)
+            .Include(c => c.CheltuieliCalatorie)
+            .Select(c => new CalatorieGrupDto
+            {
+                Id = c.Id,
+                Destinatie = c.Destinatie,
+                Grup = _mapper.Map<GrupDto>(c.Grup),
+                Cheltuieli = _mapper.Map<List<CheltuialaDto>>(c.CheltuieliCalatorie)
+
+            })
+            .ToListAsync();
+
+        if (calatorii == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(calatorii);
     }
 
     [HttpPost]
