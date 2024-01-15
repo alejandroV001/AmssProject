@@ -30,7 +30,7 @@
           class="participants-select"
         >
           <option
-            *ngFor="let member of groupService.getMembers(groupId)"
+            *ngFor="let member of groupDetails"
             [value]="member"
           >
             {{ member }}
@@ -46,18 +46,10 @@
   </fieldset>
 
   <hr />
-  "tipCheltuialaId": 0,
-  "calatorieId": 0,
-  "utilizatorId": "string",
-  "descriere": "string",
-  "moneda": "string",
   <h3>Group Expenses</h3>
   <ul>
     <li *ngFor="let expense of groupDetails.cheltuieli">
-      Total Payment: {{ expense.moneda }}, Currency:
-      {{ expense.currency }}, Category: {{ expense.category }} Participants:
-      {{ expense.participants.join(", ") }}, Description:
-      {{ expense.description }}
+      Total Payment: {{ expense.moneda }}, Description: {{ expense.description }}
     </li>
   </ul>
 </div>

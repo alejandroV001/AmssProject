@@ -45,8 +45,11 @@ export class GroupDetailsComponent implements OnInit {
 
   getGrupTrip(id: number) {
     this.groupService.getGrupTripWithId(id).subscribe({
-      next: (result) => {
-        this.groupDetails = result;
+      next: (result: any) => {
+        let members: any;
+        for (let i = 0; i < result.grup.capacitate; i++)
+          members.push('Member ' + i);
+        this.groupDetails = { ...result, members };
         console.log('group deta', this.groupDetails);
       },
       error: (error) => {

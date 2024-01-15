@@ -25,21 +25,13 @@ builder.Services.AddAuthentication()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options =>
+builder.Services.AddCors(option =>
 {
-    options.AddPolicy("Policy", builder =>
+    option.AddPolicy("Policy", builder =>
     {
-        builder
-            .WithOrigins("https://localhost:44479", "http://localhost:4200")
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials()  // If you need to include credentials (like cookies)
-            .SetIsOriginAllowed(_ => true);  // Allow any origin, adjust according to your needs
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
-
-
-
 
 
 var app = builder.Build();
