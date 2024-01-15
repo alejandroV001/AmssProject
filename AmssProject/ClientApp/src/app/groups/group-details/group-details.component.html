@@ -1,6 +1,6 @@
 <div class="container">
   <h2>Group Details</h2>
-  <p>Title: {{ groupTitle }}</p>
+  <p>Title: {{ groupDetails.destinatie }}</p>
 
   <fieldset class="expense-form-container">
     <legend>Add Expense</legend>
@@ -30,7 +30,7 @@
           class="participants-select"
         >
           <option
-            *ngFor="let member of groupService.getMembers(groupTitle)"
+            *ngFor="let member of groupService.getMembers(groupId)"
             [value]="member"
           >
             {{ member }}
@@ -46,11 +46,15 @@
   </fieldset>
 
   <hr />
-
+  "tipCheltuialaId": 0,
+  "calatorieId": 0,
+  "utilizatorId": "string",
+  "descriere": "string",
+  "moneda": "string",
   <h3>Group Expenses</h3>
   <ul>
-    <li *ngFor="let expense of groupService.getExpenses(groupTitle)">
-      Total Payment: {{ expense.totalPayment }}, Currency:
+    <li *ngFor="let expense of groupDetails.cheltuieli">
+      Total Payment: {{ expense.moneda }}, Currency:
       {{ expense.currency }}, Category: {{ expense.category }} Participants:
       {{ expense.participants.join(", ") }}, Description:
       {{ expense.description }}

@@ -29,8 +29,6 @@ export class GroupsComponent implements OnInit {
         if (groupId != null) {
           this.groupService.addTrip(this.destinatie, groupId).subscribe({
             next: (result) => {
-              console.log(result);
-              //i want to refresh the page
               this.getGroups();
             }
           });
@@ -45,7 +43,6 @@ export class GroupsComponent implements OnInit {
   getGroups() {
    this.groupService.getGrupTrips().subscribe({
       next: (result) => {
-        console.log(result);
         this.tripGroups = result;
       },
       error: (error) => {
@@ -55,8 +52,18 @@ export class GroupsComponent implements OnInit {
    }
 
   
+   getGroupTrip(id: number) {
+    this.groupService.getGrupTrip(id).subscribe({
+       next: (result) => {
+         this.tripGroups = result;
+       },
+       error: (error) => {
+         console.error('There was an error!', error);
+       }
+     });
+    }
 
-  navigateToDetails(group: any) {
-    this.router.navigate(['/group-details', group.id]);
+  navigateToDetails(groupId: any) {
+    this.router.navigate(['/group-details', groupId]);
   }
 }
