@@ -43,8 +43,14 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   addExpense() {
-    const expenseData = this.expenseForm.value;
-    this.groupService.addExpenses(this.groupId, expenseData);
+    var cheltuiala = {
+      tipCheltuialaId: 1,
+      calatorieId:this.groupId
+      //i need this from localstorage
+      // utilizatorId:
+      // this.expenseForm.value.;
+    }
+    // this.groupService.addExpenses(this.groupId, expenseData);
     this.expenseForm.reset();
   }
 

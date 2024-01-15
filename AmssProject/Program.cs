@@ -39,6 +39,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddScoped<ICalatorieRepository,CalatorieRepository>();
 builder.Services.AddScoped<ICheltuialaRepository, CheltuialaRepository>();
+builder.Services.AddScoped<IDatorieRepository, DatorieRepository>();
 builder.Services.AddScoped<IGrupRepository, GrupRepository>();
 builder.Services.AddScoped<ITipCheltuialaRepository, TipCheltuialaRepository>();
 builder.Services.AddScoped<IUtilizatorGrupRepository, UtilizatorGrupRepository>();
