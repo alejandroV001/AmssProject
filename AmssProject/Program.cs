@@ -32,9 +32,15 @@ builder.Services.AddCors(option =>
 {
     option.AddPolicy("Policy", builder =>
     {
-        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        builder
+    .WithOrigins("https://localhost:44479", "http://localhost:4200")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()  
+    .SetIsOriginAllowed(_ => true); 
     });
 });
+
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddScoped<ICalatorieRepository,CalatorieRepository>();

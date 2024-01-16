@@ -16,7 +16,21 @@ export class DebtsComponent {
 
   loadDebts() {
     this.toPayDebts = this.debtsService.getToPayDebts();
-    this.toReceiveDebts = this.debtsService.getToReceiveDebts();
+    this.getDebts();
+    console.log(this.toReceiveDebts);
+  }
+
+  getDebts() {
+    const test = this.debtsService.getDebts().subscribe({
+      next: (result) => {
+        this.toReceiveDebts = result;
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
+
+    return [];
   }
 
   updateDebtStatus(debtCategory: string, index: number) {

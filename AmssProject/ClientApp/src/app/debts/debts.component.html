@@ -1,27 +1,24 @@
 <div class="to-pay">
-    <h2 class="to-pay">To Pay</h2>
-    <ul class="to-pay">
-      <li class="to-pay" *ngFor="let debt of toPayDebts; let index = index">
-        {{ debt.to }} - {{ debt.amount }} lei, Status: {{ debt.status }}
-        <button class="to-pay" (click)="updateDebtStatus('toPay', index)">
-          Change Status
-        </button>
-      </li>
-    </ul>
-  </div>
-  
-  <div class="to-receive">
-    <h2 class="to-receive">To Receive</h2>
-    <ul class="to-receive">
-      <li
-        class="to-receive"
-        *ngFor="let debt of toReceiveDebts; let index = index"
-      >
-        {{ debt.from }} - {{ debt.amount }} lei, Status: {{ debt.status }}
-        <button class="to-receive" (click)="updateDebtStatus('toReceive', index)">
-          Change Status
-        </button>
-      </li>
-    </ul>
-  </div>
-  
+  <h2 class="to-pay">To Pay</h2>
+  <ul class="to-pay">
+    <li class="to-pay" *ngFor="let debt of toPayDebts; let index = index">
+      {{ debt.to }} - {{ debt.amount }} lei, Status: {{ debt.status }}
+      <button class="to-pay" (click)="updateDebtStatus('toPay', index)">
+        Change Status
+      </button>
+    </li>
+  </ul>
+</div>
+
+<div class="to-receive">
+  <h2 class="to-receive">To Receive</h2>
+  <ul class="to-receive">
+    <li
+      class="to-receive"
+      *ngFor="let debt of toReceiveDebts; let index = index"
+    >
+      {{ debt.deLaUtilizatorId }} (id user) - {{ debt.suma }} lei, Status:
+      Unpaid
+    </li>
+  </ul>
+</div>
