@@ -14,22 +14,21 @@ export class GroupDetailsComponent implements OnInit {
   expenseForm: FormGroup;
   groupBaseUrl: string = 'https://localhost:7242/api/Grup';
   groupDetails: any = { destinatie: '' };
-  groupService: GroupService;
 
   constructor(
     public route: ActivatedRoute,
     public fb: FormBuilder,
-    public http: HttpClient
+    public http: HttpClient,
+    public groupService: GroupService
   ) {
-    this.groupService = new GroupService(http);
 
     this.expenseForm = this.fb.group({
-      totalPayment: ['', Validators.required],
+      suma: ['', Validators.required],
       currency: ['', Validators.required],
       category: ['', Validators.required],
       participants: [[]],
       description: [''],
-    });
+    });    
 
     this.groupId = this.route.snapshot.paramMap.get('id') || '';
     this.getGrupTrip(parseInt(this.groupId));
@@ -47,18 +46,20 @@ export class GroupDetailsComponent implements OnInit {
       .addExpense(
         parseInt(this.groupId),
         this.expenseForm.value.description,
-        this.expenseForm.value.currency
+        this.expenseForm.value.currency,
+        this.expenseForm.value.suma,
       )
       .subscribe({
         next: (result) => {
           const expenseId = result.id;
 
           if (expenseId != null) {
+            console.log(this.expenseForm)
             this.groupService
               .addDebt(
                 false,
-                this.expenseForm.value.participants,
-                parseInt(this.groupId)
+                expenseId,
+                this.expenseForm.value.suma
               )
               .subscribe({
                 next: (result) => {
@@ -71,8 +72,8 @@ export class GroupDetailsComponent implements OnInit {
           console.error('There was an error!', error);
         },
       });
-
-    this.expenseForm.reset();
+      this.getExpensesOfTrip(parseInt(this.groupId));
+    // this.expenseForm.reset();
   }
 
   getGrupTrip(id: number) {

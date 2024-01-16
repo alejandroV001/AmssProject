@@ -22,7 +22,7 @@ namespace AmssProject.Controllers;
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UtilizatorDto>> Login(LogareDto loginDto)
+        public async Task<ActionResult<UtilizatorReturnDto>> Login(LogareDto loginDto)
         {
             var utilizatorDto = await _utilizatorRepository.LoginAsync(loginDto);
 

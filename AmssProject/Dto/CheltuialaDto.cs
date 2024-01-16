@@ -8,6 +8,7 @@ public class CheltuialaDto
         public string UtilizatorId { get; set; }
         public string Descriere { get; set; }
         public string Moneda { get; set; }
+        public decimal? CostTotal { get; set; }
         public DateTime DataCreare { get; set; }
 
 }

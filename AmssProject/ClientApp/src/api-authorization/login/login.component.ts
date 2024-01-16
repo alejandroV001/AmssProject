@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } from '../api-authorization.constants';
 import { Validators, FormBuilder } from '@angular/forms';
 import { AuthenticationService } from '../authentification/authentication.service';
+import { LocalStorageService } from 'src/app/services/local-storage-service.service';
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthenticationService) { }
+    private authService: AuthenticationService,
+    private localStorageService: LocalStorageService) { }
 
   async ngOnInit() {
     const action = this.activatedRoute.snapshot.url[1];
@@ -65,6 +67,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (result) => {
           console.log(result);
+          this.localStorageService.setItem('user', {id: result.id})
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {

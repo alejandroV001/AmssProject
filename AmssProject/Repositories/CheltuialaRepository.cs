@@ -26,6 +26,7 @@ namespace AmssProject.Repositories
                     UtilizatorId = ch.Initiator.Id,
                     Descriere = ch.Descriere,
                     Moneda = ch.Moneda,
+                    CostTotal = ch.CostTotal,
                     DataCreare = ch.DataCreare
                 })
                 .ToListAsync();
@@ -43,6 +44,7 @@ namespace AmssProject.Repositories
                     UtilizatorId = ch.Initiator.Id,
                     Descriere = ch.Descriere,
                     Moneda = ch.Moneda,
+                    CostTotal = ch.CostTotal,
                     DataCreare = ch.DataCreare
                 })
                 .FirstOrDefaultAsync();
@@ -68,6 +70,7 @@ namespace AmssProject.Repositories
                 Descriere = cheltuialaDto.Descriere,
                 Initiator = initiator,
                 Moneda = cheltuialaDto.Moneda,
+                CostTotal = cheltuialaDto.CostTotal,
                 DataCreare = cheltuialaDto.DataCreare
             };
 

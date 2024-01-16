@@ -21,7 +21,7 @@ namespace AmssProject.Repositories
             _tokenService = tokenService;
         }
 
-        public async Task<UtilizatorDto> LoginAsync(LogareDto loginDto)
+        public async Task<UtilizatorReturnDto> LoginAsync(LogareDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
@@ -37,8 +37,9 @@ namespace AmssProject.Repositories
                 return null;
             }*/
 
-            return new UtilizatorDto
+            return new UtilizatorReturnDto
             {
+                Id = user.Id,
                 Email = user.Email,
                 DisplayName = user.UserName
             };

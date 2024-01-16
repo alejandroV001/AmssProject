@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CalatorieGrupDto } from 'src/models/trip-group';
+import { LocalStorageService } from '../services/local-storage-service.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -10,7 +11,8 @@ export class GroupService {
   private expenseBaseUrl: string = 'https://localhost:7242/api/Cheltuiala';
   private debtBaseUrl: string = 'https://localhost:7242/api/Datorie';
   private groups: any[] = [];
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private localStorageService: LocalStorageService) {}
   getGroups() {
     return this.http.get<any[]>(this.groupBaseUrl);
   }
@@ -41,14 +43,15 @@ export class GroupService {
     );
   }
 
-  addDebt(stare: boolean, pentruUtilizatorId: string, cheltuialaId: number) {
+  addDebt(stare: boolean, cheltuialaId: number, suma: number) {
     const newDebt = {
       stare,
-      suma: 100,
-      pentruUtilizatorId: '234e14cd-6d16-448f-a3a1-cb490950ac0f',
-      deLaUtilizatorId: '234e14cd-6d16-448f-a3a1-cb490950ac0f',
+      suma: suma,
+      pentruUtilizatorId: this.localStorageService.getItem<{ id: string;}>('user')?.id,
+      deLaUtilizatorId: this.localStorageService.getItem<{ id: string;}>('user')?.id,
       cheltuialaId,
     };
+    console.log(newDebt)
 
     return this.http.post<any>(this.debtBaseUrl, newDebt);
   }
@@ -74,14 +77,16 @@ export class GroupService {
     return this.http.get<any[]>(this.expenseBaseUrl);
   }
 
-  addExpense(calatorieId: number, descriere: string, moneda: string) {
+  addExpense(calatorieId: number, descriere: string, moneda: string, costTotal: number) {
     const newExpense = {
       tipCheltuialaId: 1,
       calatorieId,
-      utilizatorId: '234e14cd-6d16-448f-a3a1-cb490950ac0f',
+      utilizatorId: this.localStorageService.getItem<{ id: string;}>('user')?.id,
       descriere,
       moneda,
+      costTotal,
     };
+    console.log(this.localStorageService.getItem<{ id: string;}>('user')?.id);
     return this.http.post<any>(this.expenseBaseUrl, newExpense);
   }
 }
